@@ -18,5 +18,6 @@ pick some of the listed papers for further class discussion.
 
 ## Project members
 
-- Name (GitHubID)
-- Name (GitHubID) 
+- Ryan Callihan (ryancallihan)
+- Nidhal Mekki (nmekki)
+- Sam Tureski (porcelluscavia) 
