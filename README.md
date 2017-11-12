@@ -12,7 +12,7 @@ Because not all documents are translated, we will only use those documents which
 
 ## Relevant literature 
 
-- Dorado, Rubén, and Sylvie Ratté. "Semisupervised Text Classification Using Unsupervised Topic Information." FLAIRS Conference. 2016.
+- Dorado, Rubén, and Sylvie Ratté. ["Semisupervised Text Classification Using Unsupervised Topic Information."](https://www.google.de/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&cad=rja&uact=8&ved=0ahUKEwi_9_So_7jXAhWSJewKHRywDugQFggtMAA&url=https%3A%2F%2Fwww.aaai.org%2Focs%2Findex.php%2FFLAIRS%2FFLAIRS16%2Fpaper%2Fdownload%2F12894%2F12568&usg=AOvVaw14YVSDuBPz6xWKdFxI9evj) FLAIRS Conference. 2016.
 - Gowda, Harsha S., et al. "Semi-supervised Text Categorization Using Recursive K-means Clustering." International Conference on Recent Trends in Image Processing and Pattern Recognition. Springer, Singapore, 2016.
 - Ko, Youngjoong, and Jungyun Seo. "Automatic text categorization by unsupervised learning." Proceedings of the 18th conference on Computational linguistics-Volume 1. Association for Computational Linguistics, 2000.
 - Miller, Timothy, Dmitriy Dligach, and Guergana Savova. "Unsupervised document classification with informed topic models." Proceedings of the 15th Workshop on Biomedical Natural Language Processing. 2016.
