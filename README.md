@@ -13,16 +13,16 @@ Because not all documents are translated, we will only use those documents which
 ## Relevant literature 
 
 - Dorado, Rubén, and Sylvie Ratté. ["Semisupervised Text Classification Using Unsupervised Topic Information."](https://www.google.de/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&cad=rja&uact=8&ved=0ahUKEwi_9_So_7jXAhWSJewKHRywDugQFggtMAA&url=https%3A%2F%2Fwww.aaai.org%2Focs%2Findex.php%2FFLAIRS%2FFLAIRS16%2Fpaper%2Fdownload%2F12894%2F12568&usg=AOvVaw14YVSDuBPz6xWKdFxI9evj) FLAIRS Conference. 2016.
-- Gowda, Harsha S., et al. "Semi-supervised Text Categorization Using Recursive K-means Clustering." International Conference on Recent Trends in Image Processing and Pattern Recognition. Springer, Singapore, 2016.
-- Ko, Youngjoong, and Jungyun Seo. "Automatic text categorization by unsupervised learning." Proceedings of the 18th conference on Computational linguistics-Volume 1. Association for Computational Linguistics, 2000.
-- Miller, Timothy, Dmitriy Dligach, and Guergana Savova. "Unsupervised document classification with informed topic models." Proceedings of the 15th Workshop on Biomedical Natural Language Processing. 2016.
-- Rubin, Timothy N., et al. "Statistical topic models for multi-label document classification." Machine learning 88.1 (2012): 157-208.
+- Gowda, Harsha S., et al. ["Semi-supervised Text Categorization Using Recursive K-means Clustering."](https://arxiv.org/pdf/1706.07913.pdf) International Conference on Recent Trends in Image Processing and Pattern Recognition. Springer, Singapore, 2016.
+- Ko, Youngjoong, and Jungyun Seo. ["Automatic text categorization by unsupervised learning."](https://www.google.de/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&cad=rja&uact=8&ved=0ahUKEwjAoLb0gLnXAhXD6qQKHejABhcQFggtMAA&url=http%3A%2F%2Fwww.aclweb.org%2Fanthology%2FC00-1066&usg=AOvVaw3dSH6Mpw32Z2oHgnEf78wt) Proceedings of the 18th conference on Computational linguistics-Volume 1. Association for Computational Linguistics, 2000.
+- Miller, Timothy, Dmitriy Dligach, and Guergana Savova. ["Unsupervised document classification with informed topic models."](http://aclweb.org/anthology/W16-2911) Proceedings of the 15th Workshop on Biomedical Natural Language Processing. 2016.
+- Rubin, Timothy N., et al. ["Statistical topic models for multi-label document classification."](https://arxiv.org/pdf/1107.2462.pdf) Machine learning 88.1 (2012): 157-208.
 
 ## Available data, tools, resources
 
 We will be using the UN parallel corpus. It includes documents of various topics in English, French, Spanish, Russian, Chinese, and Arabic. We would like to focus especially on English and Arabic, but will look at others given time.
 
-- Ziemski, Michal, Marcin Junczys-Dowmunt, and Bruno Pouliquen. "The United Nations Parallel Corpus v1. 0." LREC. 2016.
+- Ziemski, Michal, Marcin Junczys-Dowmunt, and Bruno Pouliquen. ["The United Nations Parallel Corpus v1. 0."](https://conferences.unite.un.org/UNCorpus/Content/Doc/un.pdf) LREC. 2016.
 - Website: https://conferences.unite.un.org/UNCorpus/
 
 ## Project members
