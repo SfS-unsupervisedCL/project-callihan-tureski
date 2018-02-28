@@ -1,7 +1,6 @@
-import time
+import os
 from gensim.models.ldamodel import LdaModel
 from time import time
-
 
 class Model:
 
@@ -13,7 +12,7 @@ class Model:
                      doc_matrix,
                      term_dictionary,
                      save_model=True,
-                     language='english'):
+                     language='language_na'):
         """
         Creates an LDA model based on a set of documents
         :param doc_matrix:
@@ -22,6 +21,7 @@ class Model:
         :param language:
         :return LDA model:
         """
+        self.language = language
         start = time()
         self.ldamodel = LdaModel(doc_matrix,
                                  num_topics=self.num_categories,
@@ -29,7 +29,8 @@ class Model:
                                  passes=50)
 
         if save_model:
-            self.save_model(model_path='models/%s_%s_category_lda.model' % (language, str(self.num_categories)))
+            self.save_model(model_path=os.path.join(
+                'models', self.language, '%s_%s_category_lda.model' % (language, str(self.num_categories))))
 
         print('Training lasted: {:.2f}s'.format(time() - start))
         return self.ldamodel
@@ -48,5 +49,9 @@ class Model:
         :param model_path:
         :return:
         """
+        if not os.path.isdir('models'):
+            os.mkdir('models')
+        if not os.path.isdir(os.path.join('models', self.language)):
+            os.mkdir(os.path.join('models', self.language))
         self.ldamodel.save(model_path)
         print("Model Saved")
