@@ -1,4 +1,5 @@
 import numpy as np
+from numpy import isnan
 from sklearn.manifold import TSNE
 import bokeh.plotting as bp
 from bokeh.plotting import output_file, save
@@ -12,12 +13,14 @@ class Visualize:
             num_categories=20,
             threshold=0.0,
             n_top_words=5,
-            n_iterations=500
+            n_iterations=500,
+            language='english'
     ):
         self.num_categories = num_categories
         self.threshold = threshold
         self.n_top_words = n_top_words
         self.n_iterations = n_iterations
+        self.language = language
 
     def visualize(self, ldamodel, doc_matrix, raw_documents):
         """
@@ -29,6 +32,7 @@ class Visualize:
         :param raw_documents:
         :return:
         """
+        
         prob_matrix = np.zeros((len(doc_matrix), self.num_categories))
 
         for i, doc in enumerate(doc_matrix):
@@ -98,6 +102,11 @@ class Visualize:
                 break
             topic_coord[topic_num] = tsne_lda[_lda_keys.index(topic_num)]
 
+
+        where_are_NaNs = isnan(prob_matrix)
+        prob_matrix[where_are_NaNs] = 0
+        where_are_NaNs = isnan(topic_coord)
+        topic_coord[where_are_NaNs] = 0
         # plot crucial words
         print("Prob Mat", prob_matrix.shape)
         for i in range(prob_matrix.shape[1]):
@@ -107,5 +116,5 @@ class Visualize:
         hover = p.select(dict(type=HoverTool))
         hover.tooltips = {"content": "@content - topic: @topic_key"}
 
-        output_file("%s_categories.html" % self.num_categories)
+        output_file("%s_%s_categories.html" % (self.language, str(self.num_categories)))
         save(p)
