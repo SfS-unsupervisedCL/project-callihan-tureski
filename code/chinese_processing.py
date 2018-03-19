@@ -54,16 +54,27 @@ class ChineseStopwords:
                          '哼唷', '哼', '咧', '咦', '咚', '咋', '呼哧', '呸', '呵呵', '呵', '呢', '呜呼', '呜', '呗', '呕', '呃',
                          '呀', '吱', '吧哒', '吧', '吗', '吓', '兮', '儿', '亦', '了', '乎']
 
+
 if __name__ == '__main__':
     # download here: https:\\\\nlp.stanford.edu\\software\\segmenter.html#Download
     # docs: http:\\\\www.nltk.org\\_modules\\nltk\\tokenize\\stanford_segmenter.html
     from nltk.tokenize.stanford_segmenter import StanfordSegmenter
     import os
     from data_processing import load_texts_from_directory
+    import argparse
+
+    parser = argparse.ArgumentParser(description='Takes chinese texts and segments them')
+    parser.add_argument('input_dir', metavar='IN_DIR', type=str, nargs=1)
+    parser.add_argument('output_dir', metavar='OUT_DIR', type=str, nargs=1)
+
+    input_dir = parser.parse_args().input_dir[0]
+    output_dir = parser.parse_args().output_dir[0]
 
     # Concats all docs into one file with separator
-    documents, keywords = load_texts_from_directory('../un_subset/chinese/')
-
+    documents, keywords, filenames = load_texts_from_directory(input_dir)
+    print(documents[0])
+    print(keywords[0])
+    print(filenames[0])
     with open('chinese_all.txt', 'w', encoding='utf-8') as f:
         for d in documents:
             f.write(d)
@@ -74,11 +85,11 @@ if __name__ == '__main__':
     JAVA_PATH = 'C:/java/bin/java.exe'
     os.environ['JAVA_HOME'] = JAVA_PATH
     segmenter = StanfordSegmenter(
-        path_to_jar='../stanford-segmenter-2017-06-09/stanford-segmenter-3.8.0.jar',
-        path_to_sihan_corpora_dict='../stanford-segmenter-2017-06-09/data',
+        path_to_jar='stanford-segmenter-2018-02-27/stanford-segmenter-3.9.1.jar',
+        path_to_sihan_corpora_dict='./stanford-segmenter-2018-02-27/data',
         java_class='edu.stanford.nlp.ie.crf.CRFClassifier',
-        path_to_model='../stanford-segmenter-2017-06-09/data/pku.gz',
-        path_to_dict='../stanford-segmenter-2017-06-09/data/dict-chris6.ser.gz')
+        path_to_model='stanford-segmenter-2018-02-27/data/pku.gz',
+        path_to_dict='stanford-segmenter-2018-02-27/data/dict-chris6.ser.gz')
 
     with open('segmented_chinese.txt', mode='w', encoding='utf-8') as  f:
         print('Starting segmentation')
@@ -100,9 +111,9 @@ if __name__ == '__main__':
         f.close()
 
     # Rewrites documents
-    for idx, key in enumerate(keywords.items()):
+    for idx, key in enumerate(keywords):
         if idx % 100 == 0:
             print('Working on', idx, 'out of', len(documents_seg))
-        with open(os.path.join('chinese', key[0] + '.txt'), 'w', encoding='utf-8') as f:
-            f.write('%%%' + '|'.join(key[1]) + '|\n\n' + documents_seg[idx])
+        with open(os.path.join(output_dir, filenames[idx]), 'w', encoding='utf-8') as f:
+            f.write('%%%' + '|'.join(key) + '|\n\n' + documents_seg[idx])
             f.close()

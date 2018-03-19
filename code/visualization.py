@@ -4,6 +4,7 @@ from sklearn.manifold import TSNE
 import bokeh.plotting as bp
 from bokeh.plotting import output_file, save
 from bokeh.models import ColumnDataSource, HoverTool
+import logging
 
 
 class Visualize:
@@ -74,7 +75,7 @@ class Visualize:
 
         while self.num_categories > len(colormap):
             colormap = np.append(colormap, colormap)
-            print("CM Len:", len(colormap))
+            logging.info("CM Len:", len(colormap))
 
         title = "t-SNE visualization of LDA model trained on {} news, " \
                 "{} topics, thresholding at {} topic probability, {} iter ({} data " \
@@ -108,7 +109,7 @@ class Visualize:
         where_are_NaNs = isnan(topic_coord)
         topic_coord[where_are_NaNs] = 0
         # plot crucial words
-        print("Prob Mat", prob_matrix.shape)
+        logging.info("Prob Mat", prob_matrix.shape)
         for i in range(prob_matrix.shape[1]):
             p.text(topic_coord[i, 0], topic_coord[i, 1], [topic_summaries[i]])
 
