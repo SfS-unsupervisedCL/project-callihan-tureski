@@ -117,31 +117,29 @@ class Processing:
                     ))
         return test_clusters
 
-
-    def kmeans_cluster_data(self, doc_matrix, ldamodel):
-         """
-        Gets cluster data. Writes to CSV if to_csv=True
-        :param doc_matrix:
-        :param ldamodel:
-        
-        :return clustered data:
+    def kmeans_cluster_data(self, doc_matrix, ldamodel, num_categories):
         """
+       Clusters documents based on their probability distributions for topics as returned by the LDA model.
+       :param doc_matrix:
+       :param ldamodel:
 
-        test_clusters = []
+       :return data as clustered thing:
+       """
 
-        for doc in doc_matrix:
-            distribution = []
-            scores = ldamodel[doc]
-            #print(scores)
-            for s in range(len(scores)):
-                distribution.append(scores[s][1])
-            #print(distribution)
-            test_clusters.append(distribution)
-        np.asarray(test_clusters)
-        #print(test_clusters)
+    topic_probs_per_doc = np.zeros(shape=(len(doc_matrix), num_categories, 1), dtype=np.float64)
+    for index, doc in enumerate(doc_matrix):
+        scores = ldamodel[doc]
+        # print(scores)
+    for count, score in enumerate(scores):
+        # the lda model does not return a probability for each topic
+        topic_probs_per_doc[index, (scores[count][0]), 0] = scores[count][1]
+    # print(distribution)
 
 
-        #print(test_clusters[:10])
-        kmeans = KMeans(n_clusters=10, random_state=0).fit(test_clusters)
+    print(topic_probs_per_doc.shape)
+    print(topic_probs_per_doc)
 
-        return kmeans
+    # print(test_clusters[:10])
+    kmeans = KMeans(n_clusters=num_categories, random_state=0).fit(topic_probs_per_doc)
+
+    return kmeans
