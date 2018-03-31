@@ -30,7 +30,7 @@ if __name__ == '__main__':
     parser.add_argument('languages', metavar='LANGUAGES', type=str, nargs='+', default='english chinese arabic russian')
     parser.add_argument('--visual', type=str2bool, nargs='?', default='y', help='Visualize model. Accepts boolean '
                                                                                 'argument')
-    parser.add_argument('--load', type=str2bool, nargs='?', default='n', help='Load pretrained model. Accepts boolean '
+    parser.add_argument('--load', type=str2bool, nargs='?', default='y', help='Load pretrained model. Accepts boolean '
                                                                               'argument')
     parser.add_argument('--write', type=str2bool, nargs='?', default='y', help="Writes clustering information to CSV. "
                                                                                "Accepts boolean argument")
@@ -93,8 +93,11 @@ if __name__ == '__main__':
         if LOAD:
             # Load model if necessary
             lda = Model(num_categories=NUM_CATEGORIES)
-            file = ''.join([lang, '_', str(NUM_CATEGORIES), '_category_lda.model'])
-            ldamodel = lda.load_model(model_path=os.path.join(ROOT, 'models', lang, file))
+            #file = ''.join([lang, '_', str(NUM_CATEGORIES), '_category_lda.model'])
+            ldamodel = lda.load_model("/Users/samski/Documents/GitHub/project-callihan-mekki-tureski/models/english/english_10_category_lda.model")
+            # lda = Model(num_categories=NUM_CATEGORIES)
+            # file = ''.join([lang, '_', str(NUM_CATEGORIES), '_category_lda.model'])
+            # ldamodel = lda.load_model(model_path=os.path.join(ROOT, 'models', lang, file))
         else:
             # Train model. Comment out if unneeded
             logging.info("Beginning training")
@@ -103,16 +106,19 @@ if __name__ == '__main__':
             logging.info('Model created')
 
         # Displays topics with top words
-        logging.info('TOP WORDS OF EACH CATEGORY FOR FINAL MODEL')
-        for i in ldamodel.print_topics():
-            for j in i:
-                logging.info(j)
+            logging.info('TOP WORDS OF EACH CATEGORY FOR FINAL MODEL')
+            for i in ldamodel.print_topics():
+                for j in i:
+                    logging.info(j)
 
         if WRITE:
             # Cluster information to csv
-            test_clusters = p.cluster_data(doc_matrix=test_doc_matrix, ldamodel=ldamodel, to_csv=True,
-                                           keywords=test_keywords,
-                                           filenames=test_filenames, num_categories=NUM_CATEGORIES)
+            # test_clusters = p.cluster_data(doc_matrix=test_doc_matrix, ldamodel=ldamodel, to_csv=True,
+            #                                keywords=test_keywords,
+            #                                filenames=test_filenames, num_categories=NUM_CATEGORIES)
+
+            test_clusters_kmeans = p.kmeans_cluster_data(doc_matrix=test_doc_matrix, ldamodel=ldamodel,num_categories=NUM_CATEGORIES)
+
         if VISUALIZE:
             # Visualize model
             visualize = Visualize(num_categories=NUM_CATEGORIES, language=lang)
