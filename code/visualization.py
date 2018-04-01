@@ -5,6 +5,8 @@ import bokeh.plotting as bp
 from bokeh.plotting import output_file, save
 from bokeh.models import ColumnDataSource, HoverTool
 import logging
+import pyLDAvis.gensim
+
 
 
 class Visualize:
@@ -119,3 +121,10 @@ class Visualize:
 
         output_file("%s_%s_categories.html" % (self.language, str(self.num_categories)))
         save(p)
+
+    def visualize_with_pydavis(self, ldamodel, corpus, train_term_dictionary):
+
+        pyLDAvis.gensim.prepare(ldamodel, corpus, train_term_dictionary)
+
+
+        return

@@ -4,6 +4,7 @@ import string
 from gensim import corpora
 import os
 import numpy as np
+np.set_printoptions(threshold=np.nan)
 from chinese_processing import ChineseStopwords
 import logging
 from sklearn.cluster import KMeans
@@ -125,21 +126,18 @@ class Processing:
        :return data as clustered thing:
        """
 
-        topic_probs_per_doc = np.zeros(shape=(len(doc_matrix), num_categories, 1), dtype=np.float64)
+        topic_probs_per_doc = np.zeros(shape=(len(doc_matrix), num_categories), dtype=np.float64)
         for index, doc in enumerate(doc_matrix):
             scores = ldamodel[doc]
-            # print(scores)
-        for count, score in enumerate(scores):
-            # the lda model does not return a probability for each topic
-            topic_probs_per_doc[index, (scores[count][0]), 0] = scores[count][1]
-        # print(distribution)
 
+            for count, score in enumerate(scores):
+                topic_probs_per_doc[index, score[0]] = score[1]
 
-        print(topic_probs_per_doc.shape)
-        print(topic_probs_per_doc)
 
         # print(test_clusters[:10])
         kmeans = KMeans(n_clusters=num_categories, random_state=0).fit(topic_probs_per_doc)
+
+        print("K means complete")
 
         return kmeans
 

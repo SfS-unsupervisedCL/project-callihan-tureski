@@ -1,7 +1,7 @@
 # # If using the console, you may need to append the path to the code.
 # import sys
 # sys.path.append("C:/Users/ryanc/Dropbox/school/usl_w18/project-callihan-mekki-tureski/code")
-#hello
+
 import os
 import argparse
 import logging
@@ -35,6 +35,9 @@ if __name__ == '__main__':
     parser.add_argument('--write', type=str2bool, nargs='?', default='y', help="Writes clustering information to CSV. "
                                                                                "Accepts boolean argument")
 
+    parser.add_argument('--kmeans', type=str2bool, nargs='?', default='n', help="Clusters using Kmeans. "
+                                                                               "Accepts boolean argument")
+
     # Replace ROOT with path to home folder.
     # ROOT = '/mnt/Shared/people/ryan/project-callihan-mekki-tureski/code' # sfs server
     # ROOT = '/mnt/c/Users/ryanc/Dropbox/school/usl_w18/project-callihan-mekki-tureski' # Ryan linux subsystem
@@ -46,6 +49,7 @@ if __name__ == '__main__':
     VISUALIZE = parser.parse_args().visual
     LOAD = parser.parse_args().load
     WRITE = parser.parse_args().write
+    KMEANS = parser.parse_args().kmeans
 
     ts = time.time()
     log_file = os.path.join(
@@ -86,7 +90,8 @@ if __name__ == '__main__':
 
         # Transforms documents into a bag-of-words matrix with term dictionary.
         train_doc_matrix, train_term_dictionary = docs2matrix(p.clean_docs(train_docs))
-        test_doc_matrix, _ = docs2matrix(p.clean_docs(test_docs))
+        test_corpus= p.clean_docs(test_docs)
+        test_doc_matrix, test_term_dictionary = docs2matrix(test_corpus)
 
         logging.info('Doc matrix created')
 
@@ -95,9 +100,7 @@ if __name__ == '__main__':
             lda = Model(num_categories=NUM_CATEGORIES)
             #file = ''.join([lang, '_', str(NUM_CATEGORIES), '_category_lda.model'])
             ldamodel = lda.load_model("/Users/samski/Documents/GitHub/project-callihan-mekki-tureski/models/english/english_10_category_lda.model")
-            # lda = Model(num_categories=NUM_CATEGORIES)
-            # file = ''.join([lang, '_', str(NUM_CATEGORIES), '_category_lda.model'])
-            # ldamodel = lda.load_model(model_path=os.path.join(ROOT, 'models', lang, file))
+            #ldamodel = lda.load_model(model_path=os.path.join(ROOT, 'models', lang, file))
         else:
             # Train model. Comment out if unneeded
             logging.info("Beginning training")
@@ -106,23 +109,32 @@ if __name__ == '__main__':
             logging.info('Model created')
 
         # Displays topics with top words
-            logging.info('TOP WORDS OF EACH CATEGORY FOR FINAL MODEL')
-            for i in ldamodel.print_topics():
-                for j in i:
-                    logging.info(j)
+        logging.info('TOP WORDS OF EACH CATEGORY FOR FINAL MODEL')
+        for i in ldamodel.print_topics():
+            for j in i:
+                logging.info(j)
 
         if WRITE:
             # Cluster information to csv
-            # test_clusters = p.cluster_data(doc_matrix=test_doc_matrix, ldamodel=ldamodel, to_csv=True,
-            #                                keywords=test_keywords,
-            #                                filenames=test_filenames, num_categories=NUM_CATEGORIES)
+            test_clusters = p.cluster_data(doc_matrix=test_doc_matrix, ldamodel=ldamodel, to_csv=True,
+                                           keywords=test_keywords,
+                                           filenames=test_filenames, num_categories=NUM_CATEGORIES)
 
-            test_clusters_kmeans = p.kmeans_cluster_data(doc_matrix=test_doc_matrix, ldamodel=ldamodel,num_categories=NUM_CATEGORIES)
+        if KMEANS:
+            # Cluster information to csv
+            test_clusters_kmeans = p.kmeans_cluster_data(doc_matrix=test_doc_matrix, ldamodel=ldamodel, num_categories=NUM_CATEGORIES)
 
-        if VISUALIZE:
-            # Visualize model
-            visualize = Visualize(num_categories=NUM_CATEGORIES, language=lang)
-            visualize.visualize(
-                ldamodel=ldamodel,
-                doc_matrix=test_doc_matrix,
-                raw_documents=test_docs)
+        #
+        # if VISUALIZE:
+        #     # Visualize model
+        #     visualize = Visualize(num_categories=NUM_CATEGORIES, language=lang)
+        #     visualize.visualize(
+        #         ldamodel=ldamodel,
+        #         doc_matrix=test_doc_matrix,
+        #         raw_documents=test_docs)
+
+        if VISUALIZE_PYDAVIS:
+            #use great visualization tool
+            #add parameter for language!
+            visualize = Visualize(ldamodel, test_corpus, test_term_dictionary)
+
