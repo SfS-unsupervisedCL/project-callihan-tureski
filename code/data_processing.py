@@ -6,6 +6,7 @@ import os
 import numpy as np
 from chinese_processing import ChineseStopwords
 import logging
+from sklearn.cluster import KMeans
 
 
 def load_texts_from_directory(path_to_documents, subset=None):
@@ -114,3 +115,31 @@ class Processing:
                         '|'.join(keywords[i])
                     ))
         return test_clusters
+
+    def kmeans_cluster_data(self, doc_matrix, ldamodel, num_categories):
+        """
+       Clusters documents based on their probability distributions for topics as returned by the LDA model.
+       :param doc_matrix:
+       :param ldamodel:
+
+       :return data as clustered thing:
+       """
+
+        topic_probs_per_doc = np.zeros(shape=(len(doc_matrix), num_categories, 1), dtype=np.float64)
+        for index, doc in enumerate(doc_matrix):
+            scores = ldamodel[doc]
+            # print(scores)
+        for count, score in enumerate(scores):
+            # the lda model does not return a probability for each topic
+            topic_probs_per_doc[index, (scores[count][0]), 0] = scores[count][1]
+        # print(distribution)
+
+
+        print(topic_probs_per_doc.shape)
+        print(topic_probs_per_doc)
+
+        # print(test_clusters[:10])
+        kmeans = KMeans(n_clusters=num_categories, random_state=0).fit(topic_probs_per_doc)
+
+        return kmeans
+
