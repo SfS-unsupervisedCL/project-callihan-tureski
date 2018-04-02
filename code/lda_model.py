@@ -30,7 +30,7 @@ class Model:
         self.ldamodel = LdaModel(doc_matrix,
                                  num_topics=self.num_categories,
                                  id2word=term_dictionary,
-                                 passes=50)
+                                 passes=1)
 
         if save_model:
             self.save_model(model_path=os.path.join(model_path,

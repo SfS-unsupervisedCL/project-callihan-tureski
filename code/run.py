@@ -10,6 +10,7 @@ import datetime
 import time
 from lda_model import Model
 from visualization import Visualize
+
 from data_processing import Processing, load_texts_from_directory, docs2matrix
 
 
@@ -28,7 +29,9 @@ if __name__ == '__main__':
     parser.add_argument('root', metavar='ROOT', type=str, nargs=1)
     parser.add_argument('num_categories', type=int, nargs=1)
     parser.add_argument('languages', metavar='LANGUAGES', type=str, nargs='+', default='english chinese arabic russian')
-    parser.add_argument('--visual', type=str2bool, nargs='?', default='y', help='Visualize model. Accepts boolean '
+    parser.add_argument('--visual', type=str2bool, nargs='?', default='n', help='Visualize model. Accepts boolean '
+                                                                                'argument')
+    parser.add_argument('--pyldavis', type=str2bool, nargs='?', default='y', help='Visualize model using pydavis. Accepts boolean '
                                                                                 'argument')
     parser.add_argument('--load', type=str2bool, nargs='?', default='y', help='Load pretrained model. Accepts boolean '
                                                                               'argument')
@@ -47,6 +50,7 @@ if __name__ == '__main__':
     NUM_CATEGORIES = parser.parse_args().num_categories[0]
     LANGUAGES = parser.parse_args().languages
     VISUALIZE = parser.parse_args().visual
+    PYLDAVIS = parser.parse_args().pyldavis
     LOAD = parser.parse_args().load
     WRITE = parser.parse_args().write
     KMEANS = parser.parse_args().kmeans
@@ -133,8 +137,10 @@ if __name__ == '__main__':
         #         doc_matrix=test_doc_matrix,
         #         raw_documents=test_docs)
 
-        if VISUALIZE_PYDAVIS:
+        if PYLDAVIS:
             #use great visualization tool
             #add parameter for language!
-            visualize = Visualize(ldamodel, test_corpus, test_term_dictionary)
+            print("pyldavis")
+            visualize = Visualize(num_categories=NUM_CATEGORIES, language=lang)
+            visualize.visualize_with_pydavis(ldamodel, test_doc_matrix, test_term_dictionary)
 

@@ -44,7 +44,12 @@ def docs2matrix(docs):
     :return bag of words matrix:
     """
     # [token for doc in docs for token in doc]
+    no_below = 5
+    no_above = 0.5
     term_dictionary = corpora.Dictionary(docs)
+    term_dictionary.compactify()
+    term_dictionary.filter_extremes(no_below=no_below, no_above=no_above, keep_n=None)
+    term_dictionary.compactify()
     doc_matrix = [term_dictionary.doc2bow(doc) for doc in docs]
     logging.info("Len of raw corpus: %d | Len of matrix: %d" % (len(docs), len(doc_matrix)))
     return doc_matrix, term_dictionary
