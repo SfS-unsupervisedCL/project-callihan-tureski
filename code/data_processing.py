@@ -122,11 +122,16 @@ class Processing:
                     ))
         return test_clusters
 
-    def kmeans_cluster_data(self, doc_matrix, ldamodel, num_categories):
+    def kmeans_cluster_data(self, doc_matrix, ldamodel, to_csv=False, keywords=None, filenames=None, num_categories=-1):
         """
        Clusters documents based on their probability distributions for topics as returned by the LDA model.
        :param doc_matrix:
        :param ldamodel:
+       :param to_csv:
+        :param keywords:
+        :param filenames:
+        :param num_categories:
+        :return:
 
        :return data as clustered thing:
        """
@@ -140,9 +145,22 @@ class Processing:
 
 
         # print(test_clusters[:10])
-        kmeans = KMeans(n_clusters=num_categories, random_state=0).fit(topic_probs_per_doc)
+        kmeans = KMeans(n_clusters=num_categories, random_state=0).fit_predict(topic_probs_per_doc)
 
-        print("K means complete")
+        if to_csv and keywords is not None and filenames is not None and num_categories is not -1:
+            filename = '%s_%d_categories.csv' % (self.lang, num_categories)
+            with open(filename, 'w', encoding='utf-8') as f:
+                f.write('file,language,num_categories,cluster,keywords')
+                for i, fn in enumerate(filenames):
+                    f.write('\n%s,%s,%d,%d,%s' % (
+                        fn,
+                        self.lang,
+                        num_categories,
+                        topic_probs_per_doc[i],
+                        '|'.join(keywords[i])
+                    ))
+
+        #print(kmeans)
 
         return kmeans
 

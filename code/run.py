@@ -108,9 +108,9 @@ if __name__ == '__main__':
         else:
             # Train model. Comment out if unneeded
             logging.info("Beginning training")
-            lda = Model(num_categories=NUM_CATEGORIES)
-            ldamodel = lda.create_model(train_doc_matrix, train_term_dictionary, ROOT, language=lang)
-            logging.info('Model created')
+            # lda = Model(num_categories=NUM_CATEGORIES)
+            # ldamodel = lda.create_model(train_doc_matrix, train_term_dictionary, ROOT, language=lang)
+            # logging.info('Model created')
 
         # Displays topics with top words
         logging.info('TOP WORDS OF EACH CATEGORY FOR FINAL MODEL')
@@ -141,6 +141,6 @@ if __name__ == '__main__':
             #use great visualization tool
             #add parameter for language!
             print("pyldavis")
-            visualize = Visualize(num_categories=NUM_CATEGORIES, language=lang)
-            visualize.visualize_with_pydavis(ldamodel, test_doc_matrix, test_term_dictionary)
+            #visualize = Visualize(num_categories=NUM_CATEGORIES, language=lang)
+            #visualize.visualize_with_pydavis(ldamodel, test_doc_matrix, test_term_dictionary)
 
