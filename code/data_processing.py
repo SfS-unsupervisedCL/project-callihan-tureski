@@ -8,6 +8,53 @@ from chinese_processing import ChineseStopwords
 import logging
 
 
+def language_vectors(categories, argmax=False):
+    """
+    Takes in a list of category distributions and returns vectors which correspond to the number of
+    categories which are number of documents long. (num_categories, num_documents)
+    If you do not want a category distribution, but rather a single category per document, set argmax to true.
+    :param categories:
+    :param argmax:
+    :return:
+    """
+    if argmax:
+        idx = [np.argmax(x) for x in categories]
+        categories = np.zeros((len(categories), len(categories[0])))
+        categories[np.arange(len(categories)), idx] = 1
+    return list(zip(*categories))
+
+
+def cluster_data(doc_matrix, ldamodel, num_categories):
+    """
+    Gets cluster data. returns a list of probability distributions for clusters
+    :param doc_matrix:
+    :param ldamodel:
+    :param num_categories:
+    :return:
+    """
+    clusters = []
+    for doc in doc_matrix:
+        idx, scores = zip(*ldamodel[doc])
+        vec = np.zeros(num_categories)
+        vec[list(idx)] = list(scores)
+        clusters.append(vec)
+    return clusters
+
+
+def write_cluster_data(lang, num_categories, filenames, clusters, keywords):
+    filename = '%s_%d_categories.csv' % (lang, num_categories)
+    with open(filename, 'w', encoding='utf-8') as f:
+        f.write('file,language,num_categories,cluster,keywords')
+        for i, fn in enumerate(filenames):
+            f.write('\n%s,%s,%d,%d,%s' % (
+                fn,
+                lang,
+                num_categories,
+                clusters[i],
+                '|'.join(keywords[i])
+            ))
+
+
 def load_texts_from_directory(path_to_documents, subset=None):
     """
     Loads all .txt files from directory into a list.
@@ -84,33 +131,3 @@ class Processing:
         cleaned = [self.cleaning(doc) for doc in docs]
         print(cleaned[0])
         return cleaned
-
-    def cluster_data(self, doc_matrix, ldamodel, to_csv=False, keywords=None, filenames=None, num_categories=-1):
-        """
-        Gets cluster data. Writes to CSV if to_csv=True
-        :param doc_matrix:
-        :param ldamodel:
-        :param to_csv:
-        :param keywords:
-        :param filenames:
-        :param num_categories:
-        :return:
-        """
-        test_clusters = []
-        for doc in doc_matrix:
-            scores = ldamodel[doc]
-            # TODO check argmax
-            test_clusters.append(scores[np.argmax([s[1] for s in scores])][0])
-        if to_csv and keywords is not None and filenames is not None and num_categories is not -1:
-            filename = '%s_%d_categories.csv' % (self.lang, num_categories)
-            with open(filename, 'w', encoding='utf-8') as f:
-                f.write('file,language,num_categories,cluster,keywords')
-                for i, fn in enumerate(filenames):
-                    f.write('\n%s,%s,%d,%d,%s' % (
-                        fn,
-                        self.lang,
-                        num_categories,
-                        test_clusters[i],
-                        '|'.join(keywords[i])
-                    ))
-        return test_clusters
