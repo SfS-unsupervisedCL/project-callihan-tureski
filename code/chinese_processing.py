@@ -1,4 +1,8 @@
 class ChineseStopwords:
+    """
+    WRITTEN BY RYAN CALLIHAN
+    VERIFIED BY CHIH-CHUN CHANG
+    """
     chinese_stopwords = ['按', '按照', '俺', '俺们', '阿', '别', '别人', '别处', '别是', '别的', '别管', '别说', '不', '不仅',
                          '不但', '不光', '不单', '不只', '不外乎', '不如', '不妨', '不尽', '不尽然', '不得', '不怕', '不惟',
                          '不成', '不拘', '不料', '不是', '不比', '不然', '不特', '不独', '不管', '不至于', '不若', '不论', '不过',
@@ -56,6 +60,10 @@ class ChineseStopwords:
 
 
 if __name__ == '__main__':
+
+    """
+    WRITTEN BY SAMANTHA TURESKI AND RYAN CALLIHAN
+    """
     # download here: https:\\\\nlp.stanford.edu\\software\\segmenter.html#Download
     # docs: http:\\\\www.nltk.org\\_modules\\nltk\\tokenize\\stanford_segmenter.html
     from nltk.tokenize.stanford_segmenter import StanfordSegmenter

@@ -15,6 +15,11 @@ from data_processing import Processing, load_texts_from_directory, docs2matrix
 
 
 def str2bool(v):
+    """
+    ADAPTED FROM https://stackoverflow.com/questions/15008758/parsing-boolean-values-with-argparse/41339640#41339640
+    :param v:
+    :return:
+    """
     if v.lower() in ('yes', 'true', 't', 'y', '1'):
         return True
     elif v.lower() in ('no', 'false', 'f', 'n', '0'):
@@ -24,6 +29,9 @@ def str2bool(v):
 
 
 if __name__ == '__main__':
+    """
+    WRITTEN BY RYAN CALLIHAN
+    """
 
     parser = argparse.ArgumentParser(description='Takes chinese texts and segments them')
     parser.add_argument('root', metavar='ROOT', type=str, nargs=1)

@@ -9,6 +9,10 @@ import logging
 
 class Visualize:
 
+    """
+    WRITTEN BY RYAN CALLIHAN
+    """
+
     def __init__(
             self,
             num_categories=20,
@@ -25,6 +29,7 @@ class Visualize:
 
     def visualize(self, ldamodel, doc_matrix, raw_documents):
         """
+        WRITTEN BY RYAN CALLIHAN
         Visalizes predictions from LDA model. Uses t-SNE to reduce dimensionality of model.
         Saves an HTML file with interactive graph which separates classes by color and provides a preview of the
         document when moused over.

@@ -10,6 +10,7 @@ import logging
 
 def language_vectors(categories, argmax=False):
     """
+    WRITTEN BY RYAN CALLIHAN
     Takes in a list of category distributions and returns vectors which correspond to the number of
     categories which are number of documents long. (num_categories, num_documents)
     If you do not want a category distribution, but rather a single category per document, set argmax to true.
@@ -26,6 +27,7 @@ def language_vectors(categories, argmax=False):
 
 def cluster_data(doc_matrix, ldamodel, num_categories):
     """
+    WRITTEN BY RYAN CALLIHAN
     Gets cluster data. returns a list of probability distributions for clusters
     :param doc_matrix:
     :param ldamodel:
@@ -42,6 +44,15 @@ def cluster_data(doc_matrix, ldamodel, num_categories):
 
 
 def write_cluster_data(lang, num_categories, filenames, clusters, keywords):
+    """
+    WRITTEN BY RYAN CALLIHAN
+    :param lang:
+    :param num_categories:
+    :param filenames:
+    :param clusters:
+    :param keywords:
+    :return:
+    """
     filename = '%s_%d_categories.csv' % (lang, num_categories)
     with open(filename, 'w', encoding='utf-8') as f:
         f.write('file,language,num_categories,cluster,keywords')
@@ -57,6 +68,7 @@ def write_cluster_data(lang, num_categories, filenames, clusters, keywords):
 
 def load_texts_from_directory(path_to_documents, subset=None):
     """
+    WRITTEN BY RYAN CALLIHAN
     Loads all .txt files from directory into a list.
     :param subset:
     :param path_to_documents:
@@ -84,6 +96,7 @@ def load_texts_from_directory(path_to_documents, subset=None):
 
 def docs2matrix(docs):
     """
+    WRITTEN BY RYAN CALLIHAN
     Transforms a list of documents into a bag of words matrix suitable for the LDA model.
     :param docs:
     :return bag of words matrix:
@@ -96,6 +109,9 @@ def docs2matrix(docs):
 
 
 class Processing:
+    """
+    WRITTEN BY RYAN CALLIHAN
+    """
     def __init__(
             self,
             stopword_lang='english'
@@ -110,6 +126,7 @@ class Processing:
 
     def cleaning(self, document):
         """
+        WRITTEN BY RYAN CALLIHAN
         Cleans document of stopwords and punctuation. Stopwords are specified at initialization of Processing.
         Lemmatizes for all languages except Chinese.
         :param document:
@@ -124,6 +141,7 @@ class Processing:
 
     def clean_docs(self, docs):
         """
+        WRITTEN BY RYAN CALLIHAN
         Cleans all documents in a list
         :param docs:
         :return list of cleaned documents:

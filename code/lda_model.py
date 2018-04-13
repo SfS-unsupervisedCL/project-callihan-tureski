@@ -5,10 +5,14 @@ import logging
 
 
 class Model:
+    """
+    WRITTEN BY RYAN CALLIHAN
+    """
 
-    def __init__(self, num_categories=20):
+    def __init__(self, num_categories=20, num_passes=1):
         self.num_categories = num_categories
         self.ldamodel = None
+        self.num_passes = num_passes
 
     def create_model(self,
                      doc_matrix,
@@ -17,6 +21,7 @@ class Model:
                      save_model=True,
                      language='language_na'):
         """
+        WRITTEN BY RYAN CALLIHAN
         Creates an LDA model based on a set of documents
         :param model_path:
         :param doc_matrix:
@@ -30,7 +35,7 @@ class Model:
         self.ldamodel = LdaModel(doc_matrix,
                                  num_topics=self.num_categories,
                                  id2word=term_dictionary,
-                                 passes=50)
+                                 passes=self.num_passes)
 
         if save_model:
             self.save_model(model_path=os.path.join(model_path,
@@ -41,6 +46,7 @@ class Model:
 
     def load_model(self, model_path='lda.model'):
         """
+        WRITTEN BY RYAN CALLIHAN
         Loads a pretrained LDA model
         :param model_path:
         :return LDA model:
@@ -49,6 +55,7 @@ class Model:
 
     def save_model(self, model_path):
         """
+        WRITTEN BY RYAN CALLIHAN
         Saves trained LDA model
         :param model_path:
         :return:
